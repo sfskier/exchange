@@ -36,7 +36,6 @@ public class RatesController {
         // https://currentmillis.com/
         Date from = new Date(time - TICKER_INTERVAL * 500);
         Date to = new Date(time + TICKER_INTERVAL * 500);
-        LOGGER.info("time ms: {}", to.getTime() - from.getTime());
         return repository.findLastByCreatedBetween(from, to);
     }
 }

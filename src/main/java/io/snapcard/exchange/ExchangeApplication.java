@@ -1,5 +1,7 @@
 package io.snapcard.exchange;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.snapcard.exchange.mongo.BitTicker;
 import io.snapcard.exchange.mongo.BitTickerRepository;
 import io.snapcard.exchange.rx.BitExchange;
@@ -41,7 +43,11 @@ public class ExchangeApplication implements CommandLineRunner {
                 {
                     BitTicker bitTicker = new BitTicker(ticker);
                     repository.save(bitTicker);
-                    LOGGER.info(bitTicker.toString());
+                    try {
+                        LOGGER.info("{} ", new ObjectMapper().writeValueAsString(bitTicker));
+                    } catch (JsonProcessingException e) {
+                        LOGGER.error("[Error serializing BitTicker.]", e);
+                    }
                 });
     }
 
